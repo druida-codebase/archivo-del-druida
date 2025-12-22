@@ -1,0 +1,240 @@
+[
+	{
+		"__TYPE__": "SharedSliceContent",
+		"variation": "default",
+		"primary": {
+			"bloghero": {
+				"origin": {
+					"id": "main",
+					"url": "https://images.unsplash.com/photo-1537498425277-c283d32ef9db",
+					"width": 4380,
+					"height": 2895
+				},
+				"url": "https://images.unsplash.com/photo-1537498425277-c283d32ef9db",
+				"width": 4380,
+				"height": 2895,
+				"edit": {
+					"zoom": 1,
+					"crop": {
+						"x": 0,
+						"y": 0
+					},
+					"background": "transparent"
+				},
+				"alt": "strike",
+				"credits": null,
+				"__TYPE__": "ImageContent",
+				"thumbnails": {}
+			},
+			"legend": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Nostrud Lorem commodo sint qui."
+						}
+					}
+				]
+			},
+			"title": {
+				"__TYPE__": "FieldContent",
+				"value": "free",
+				"type": "Text"
+			},
+			"subtitle": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Nisi fugiat ad consequat ipsum incididunt laborum qui nostrud eu eu est ad adipisicing id Lorem. Veniam quis aliqua ex aliquip magna nulla commodo ullamco adipisicing. Sint officia fugiat reprehenderit ipsum."
+						}
+					}
+				]
+			},
+			"maincontent": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Labore magna culpa Lorem proident laborum ut reprehenderit in cupidatat eiusmod do. Cupidatat reprehenderit nulla exercitation nostrud. Ad cupidatat pariatur laboris eiusmod do aliqua nulla anim labore."
+						}
+					}
+				]
+			},
+			"repeatablecontent": {
+				"__TYPE__": "GroupContentType",
+				"value": [
+					{
+						"__TYPE__": "GroupItemContent",
+						"value": [
+							[
+								"repeaterimg",
+								{
+									"origin": {
+										"id": "main",
+										"url": "https://images.unsplash.com/photo-1606248897732-2c5ffe759c04",
+										"width": 4000,
+										"height": 4000
+									},
+									"url": "https://images.unsplash.com/photo-1606248897732-2c5ffe759c04",
+									"width": 4000,
+									"height": 4000,
+									"edit": {
+										"zoom": 1,
+										"crop": {
+											"x": 0,
+											"y": 0
+										},
+										"background": "transparent"
+									},
+									"alt": "flow",
+									"credits": null,
+									"__TYPE__": "ImageContent",
+									"thumbnails": {}
+								}
+							],
+							[
+								"repeaterlegend",
+								{
+									"__TYPE__": "StructuredTextContent",
+									"value": [
+										{
+											"type": "paragraph",
+											"content": {
+												"text": "Elit culpa commodo nisi eu consectetur nostrud eu occaecat. Exercitation incididunt tempor ex cupidatat officia eiusmod fugiat laborum nisi. Enim cillum non do cillum do nisi deserunt aute excepteur nisi sint dolore sit dolore nulla."
+											}
+										}
+									]
+								}
+							],
+							[
+								"repeatertext",
+								{
+									"__TYPE__": "StructuredTextContent",
+									"value": [
+										{
+											"type": "paragraph",
+											"content": {
+												"text": "Incididunt reprehenderit consequat pariatur incididunt cupidatat. Sint cupidatat sint Lorem et velit pariatur sit. Eu sint exercitation consectetur sint quis et veniam qui."
+											}
+										}
+									]
+								}
+							]
+						]
+					}
+				]
+			},
+			"pretitle": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Consequat in qui mollit adipisicing duis reprehenderit mollit eiusmod ut do commodo adipisicing eu. Proident magna reprehenderit deserunt tempor velit. Pariatur id eiusmod ea pariatur nisi cupidatat magna."
+						}
+					}
+				]
+			},
+			"youtubeembed": {
+				"embed_url": "https://twitter.com/prismicio/status/1356293316158095361",
+				"author_name": "Prismic",
+				"author_url": "https://twitter.com/prismicio",
+				"html": "<blockquote class=\"twitter-tweet\"><p lang=\"en\" dir=\"ltr\">Gatsby is a popular choice for Prismic users and we work hard on delivering a CMS that plays to its strengths.<br><br>But, what makes <a href=\"https://twitter.com/GatsbyJS?ref_src=twsrc%5Etfw\">@GatsbyJS</a> so popular?<br><br>Here are some of <a href=\"https://twitter.com/mxstbr?ref_src=twsrc%5Etfw\">@mxstbr</a>&#39;s thoughts on Gatsby&#39;s success and how they&#39;re improving developer experience.<a href=\"https://t.co/ZjCPvsWWUD\">https://t.co/ZjCPvsWWUD</a> <a href=\"https://t.co/EQqzJpeNKl\">pic.twitter.com/EQqzJpeNKl</a></p>&mdash; Prismic (@prismicio) <a href=\"https://twitter.com/prismicio/status/1356293316158095361?ref_src=twsrc%5Etfw\">February 1, 2021</a></blockquote>\n<script async src=\"https://platform.twitter.com/widgets.js\" charset=\"utf-8\"></script>\n",
+				"type": "rich",
+				"cache_age": "3153600000",
+				"provider_name": "Twitter",
+				"provider_url": "http://www.twitter.com/",
+				"version": "1.0",
+				"all": {
+					"embed_url": "https://twitter.com/prismicio/status/1356293316158095361",
+					"author_name": "Prismic",
+					"author_url": "https://twitter.com/prismicio",
+					"html": "<blockquote class=\"twitter-tweet\"><p lang=\"en\" dir=\"ltr\">Gatsby is a popular choice for Prismic users and we work hard on delivering a CMS that plays to its strengths.<br><br>But, what makes <a href=\"https://twitter.com/GatsbyJS?ref_src=twsrc%5Etfw\">@GatsbyJS</a> so popular?<br><br>Here are some of <a href=\"https://twitter.com/mxstbr?ref_src=twsrc%5Etfw\">@mxstbr</a>&#39;s thoughts on Gatsby&#39;s success and how they&#39;re improving developer experience.<a href=\"https://t.co/ZjCPvsWWUD\">https://t.co/ZjCPvsWWUD</a> <a href=\"https://t.co/EQqzJpeNKl\">pic.twitter.com/EQqzJpeNKl</a></p>&mdash; Prismic (@prismicio) <a href=\"https://twitter.com/prismicio/status/1356293316158095361?ref_src=twsrc%5Etfw\">February 1, 2021</a></blockquote>\n<script async src=\"https://platform.twitter.com/widgets.js\" charset=\"utf-8\"></script>\n",
+					"width": 550,
+					"height": null,
+					"type": "rich",
+					"cache_age": "3153600000",
+					"provider_name": "Twitter",
+					"provider_url": "http://www.twitter.com/",
+					"version": "1.0"
+				},
+				"__TYPE__": "EmbedContent"
+			},
+			"linksgroup": {
+				"__TYPE__": "GroupContentType",
+				"value": [
+					{
+						"__TYPE__": "GroupItemContent",
+						"value": [
+							[
+								"linkthumbnail",
+								{
+									"origin": {
+										"id": "main",
+										"url": "https://images.unsplash.com/photo-1496181133206-80ce9b88a853",
+										"width": 5243,
+										"height": 3495
+									},
+									"url": "https://images.unsplash.com/photo-1496181133206-80ce9b88a853",
+									"width": 5243,
+									"height": 3495,
+									"edit": {
+										"zoom": 1,
+										"crop": {
+											"x": 0,
+											"y": 0
+										},
+										"background": "transparent"
+									},
+									"alt": "smile",
+									"credits": null,
+									"__TYPE__": "ImageContent",
+									"thumbnails": {}
+								}
+							],
+							[
+								"linktitle",
+								{
+									"__TYPE__": "FieldContent",
+									"value": "organized",
+									"type": "Text"
+								}
+							],
+							[
+								"link",
+								{
+									"key": "1ce9da29-79fe-46b5-8b18-24e05d7e2a09",
+									"__TYPE__": "LinkContent",
+									"value": {
+										"__TYPE__": "ExternalLink",
+										"url": "http://google.com",
+										"text": "track"
+									}
+								}
+							],
+							[
+								"linkdescription",
+								{
+									"__TYPE__": "StructuredTextContent",
+									"value": [
+										{
+											"type": "paragraph",
+											"content": {
+												"text": "Do tempor ea esse et non voluptate dolor."
+											}
+										}
+									]
+								}
+							]
+						]
+					}
+				]
+			}
+		},
+		"items": []
+	}
+]

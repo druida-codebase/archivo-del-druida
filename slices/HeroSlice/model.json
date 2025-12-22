@@ -1,0 +1,42 @@
+{
+  "id": "hero_slice",
+  "type": "SharedSlice",
+  "name": "HeroSlice",
+  "description": "HeroSlice",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "topimage": {
+          "type": "Image",
+          "config": {
+            "label": "TopImage",
+            "constraint": {},
+            "thumbnails": []
+          }
+        },
+        "backgroundimage": {
+          "type": "Image",
+          "config": {
+            "label": "BackgroundImage",
+            "constraint": {},
+            "thumbnails": []
+          }
+        },
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "title",
+            "placeholder": ""
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

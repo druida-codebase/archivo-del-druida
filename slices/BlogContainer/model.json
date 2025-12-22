@@ -1,0 +1,59 @@
+{
+  "id": "blog_container",
+  "type": "SharedSlice",
+  "name": "BlogContainer",
+  "description": "BlogContainer",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "title",
+            "placeholder": ""
+          }
+        },
+        "blogpreview": {
+          "type": "Group",
+          "config": {
+            "label": "BlogPreview",
+            "repeat": true,
+            "fields": {
+              "thumbnail": {
+                "type": "Image",
+                "config": {
+                  "label": "Thumbnail",
+                  "constraint": {},
+                  "thumbnails": []
+                }
+              },
+              "blogtitle": {
+                "type": "Text",
+                "config": {
+                  "label": "BlogTitle",
+                  "placeholder": ""
+                }
+              },
+              "blogdescription": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "BlogDescription",
+                  "placeholder": "",
+                  "allowTargetBlank": true,
+                  "multi": "paragraph,strong,em"
+                }
+              }
+            }
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

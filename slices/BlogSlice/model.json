@@ -1,0 +1,156 @@
+{
+  "id": "blog_slice",
+  "type": "SharedSlice",
+  "name": "BlogSlice",
+  "description": "BlogSlice",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "pretitle": {
+          "type": "StructuredText",
+          "config": {
+            "label": "PreTitle",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,strong,em"
+          }
+        },
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "title",
+            "placeholder": ""
+          }
+        },
+        "subtitle": {
+          "type": "StructuredText",
+          "config": {
+            "label": "subtitle",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,em,strong"
+          }
+        },
+        "bloghero": {
+          "type": "Image",
+          "config": {
+            "label": "BlogHero",
+            "constraint": {},
+            "thumbnails": []
+          }
+        },
+        "legend": {
+          "type": "StructuredText",
+          "config": {
+            "label": "legend",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,strong,em"
+          }
+        },
+        "maincontent": {
+          "type": "StructuredText",
+          "config": {
+            "label": "MainContent",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+          }
+        },
+        "repeatablecontent": {
+          "type": "Group",
+          "config": {
+            "label": "Repeatablecontent",
+            "repeat": true,
+            "fields": {
+              "repeaterimg": {
+                "type": "Image",
+                "config": {
+                  "label": "RepeaterImg",
+                  "constraint": {},
+                  "thumbnails": []
+                }
+              },
+              "repeaterlegend": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "RepeaterLegend",
+                  "placeholder": "",
+                  "allowTargetBlank": true,
+                  "multi": "paragraph,strong,em"
+                }
+              },
+              "repeatertext": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "RepeaterText",
+                  "placeholder": "",
+                  "allowTargetBlank": true,
+                  "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+                }
+              }
+            }
+          }
+        },
+        "youtubeembed": {
+          "type": "Embed",
+          "config": {
+            "label": "YouTubeEmbed",
+            "placeholder": ""
+          }
+        },
+        "linksgroup": {
+          "type": "Group",
+          "config": {
+            "label": "LinksGroup",
+            "repeat": true,
+            "fields": {
+              "linkthumbnail": {
+                "type": "Image",
+                "config": {
+                  "label": "LinkThumbnail",
+                  "constraint": {},
+                  "thumbnails": []
+                }
+              },
+              "linktitle": {
+                "type": "Text",
+                "config": {
+                  "label": "LinkTitle",
+                  "placeholder": ""
+                }
+              },
+              "linkdescription": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "LinkDescription",
+                  "placeholder": "",
+                  "allowTargetBlank": true,
+                  "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+                }
+              },
+              "link": {
+                "type": "Link",
+                "config": {
+                  "label": "Link",
+                  "placeholder": "",
+                  "select": null,
+                  "allowTargetBlank": true,
+                  "allowText": true,
+                  "repeat": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}
