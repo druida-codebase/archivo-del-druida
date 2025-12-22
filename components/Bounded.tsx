@@ -1,4 +1,13 @@
 import clsx from "clsx";
+import React from "react";
+
+interface BoundedProps {
+  as?: React.ElementType;
+  fullWidth?: boolean;
+  className?: string;
+  innerClassName?: string;
+  children: React.ReactNode;
+}
 
 export default function Bounded({
   as: Comp = "section",
@@ -6,7 +15,7 @@ export default function Bounded({
   className,
   innerClassName,
   children,
-}) {
+}: BoundedProps) {
   return (
     <Comp
       className={clsx(
