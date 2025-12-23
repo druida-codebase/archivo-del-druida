@@ -14,6 +14,7 @@ export function Loader({ onComplete }: LoaderProps) {
   const isStarted = useRef(false); 
 
   useEffect(() => {
+    // Only start if it hasn't started yet
     if (isStarted.current) return;
     isStarted.current = true;
 
@@ -43,13 +44,21 @@ export function Loader({ onComplete }: LoaderProps) {
 
     let loadedCount = 0;
     const totalImages = 4;
-    
-    const startAnimation = () => {
-      let startTime: number | null = null;
-      const shakeDuration = 2000;
-      const moveDuration = 2000;
-      const totalDuration = shakeDuration + moveDuration;
+    const onImageLoad = () => {
+      loadedCount++;
+      if (loadedCount === totalImages) {
+        startAnimation();
+      }
+    };
 
+    Object.values(images).forEach(img => { img.onload = onImageLoad; });
+
+    let startTime: number | null = null;
+    const shakeDuration = 2000;
+    const moveDuration = 2000;
+    const totalDuration = shakeDuration + moveDuration;
+
+    const startAnimation = () => {
       const animate = (timestamp: number) => {
         if (!startTime) startTime = timestamp;
         const elapsed = timestamp - startTime;
@@ -60,8 +69,8 @@ export function Loader({ onComplete }: LoaderProps) {
         const centerY = canvas.height / 2;
         
         const baseScale = Math.min(
-          (canvas.height * 1.5) / (images.bg.height || 1), 
-          (canvas.width * 1.5) / (images.bg.width || 1)
+          canvas.height * 1.5 / (images.bg.height || 1), 
+          canvas.width * 1.5 / (images.bg.width || 1)
         );
 
         let shakeX = 0, shakeY = 0;
@@ -95,32 +104,18 @@ export function Loader({ onComplete }: LoaderProps) {
           setLogoAnimating(true);
           setTimeout(() => {
             setAnimationComplete(true);
-            onCompleteRef.current?.();
+            onComplete?.();
           }, 1000); 
         }
       };
       animationRef.current = requestAnimationFrame(animate);
     };
 
-    const onImageLoad = () => {
-      loadedCount++;
-      if (loadedCount === totalImages) {
-        startAnimation();
-      }
-    };
-
-    Object.values(images).forEach(img => { 
-      if (img.complete) onImageLoad();
-      else img.onload = onImageLoad; 
-    });
-
     return () => {
       window.removeEventListener('resize', updateCanvasSize);
-      if (animationRef.current !== null) {
-        cancelAnimationFrame(animationRef.current);
-      }
+      if (animationRef.current) cancelAnimationFrame(animationRef.current);
     };
-  }, []);
+  }, [onComplete]);
 
   if (animationComplete) return null;
 
