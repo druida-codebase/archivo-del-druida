@@ -10,7 +10,7 @@ export function Loader({ onComplete }: LoaderProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [animationComplete, setAnimationComplete] = useState(false);
   const [logoAnimating, setLogoAnimating] = useState(false);
-  const animationRef = useRef<number>();
+  const animationRef = useRef<number | null>(null);
   const isStarted = useRef(false); 
 
   useEffect(() => {
