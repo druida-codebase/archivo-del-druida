@@ -17,7 +17,7 @@ const BlogSlice = async ({ slice }: BlogSliceProps) => {
   const client = createClient();
   
   // Fetching the blog posts for the search bar
-  const blogPosts = await client.getAllByType("blog_post");
+  const blogPosts = await client.getAllByType("blog");
 
   return (
     <section

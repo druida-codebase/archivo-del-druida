@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import Link from "next/link"; 
 import { LuMenu, LuX, LuSearch } from "react-icons/lu";
+import { Content } from "@prismicio/client";
 import {
   Dialog,
   DialogContent,
@@ -15,17 +16,8 @@ import {
 } from "@radix-ui/react-dialog";
 import Logo from "./Logo";
 
-// Add this type for blog posts
-type BlogPost = {
-  id: string;
-  uid: string;
-  data: {
-    title: any;
-  };
-};
-
 type NavbarProps = {
-  blogPosts?: BlogPost[];
+  blogPosts?: Content.BlogDocument[];
 };
 
 export function Navbar({ blogPosts = [] }: NavbarProps) {
@@ -41,15 +33,21 @@ export function Navbar({ blogPosts = [] }: NavbarProps) {
     { title: "Equipo", href: "#team" },
   ];
 
-  // Filter blogs based on search
   const filteredBlogs = useMemo(() => {
     if (!searchQuery.trim()) return blogPosts;
     
     const query = searchQuery.toLowerCase();
     return blogPosts.filter(post => {
-      const title = typeof post.data.title === 'string' 
-        ? post.data.title 
-        : post.data.title[0]?.text || '';
+      // Use 'as any' to bypass strict checking on the data object
+      const data = post.data as any;
+      const titleField = data?.title;
+      
+      let title = "";
+      if (Array.isArray(titleField)) {
+        title = titleField[0]?.text || "";
+      } else if (typeof titleField === "string") {
+        title = titleField;
+      }
       
       return title.toLowerCase().includes(query);
     });
@@ -61,7 +59,6 @@ export function Navbar({ blogPosts = [] }: NavbarProps) {
         <Logo className="h-8 w-auto fill-white text-white" /> 
       </Link>
 
-      {/* Desktop Navigation */}
       <nav className="hidden md:flex items-center gap-8">
         {navLinks.map((link) => (
           <Link
@@ -74,7 +71,6 @@ export function Navbar({ blogPosts = [] }: NavbarProps) {
         ))}
       </nav>
 
-      {/* Right Side: Search + Sign In + Mobile Trigger */}
       <div className="flex items-center gap-4">
         <Dialog open={searchOpen} onOpenChange={setSearchOpen}>
           <DialogTrigger className="hidden md:flex size-10 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition-all">
@@ -103,28 +99,30 @@ export function Navbar({ blogPosts = [] }: NavbarProps) {
                 </DialogClose>
               </div>
 
-              {/* Search Results */}
               <div className="max-h-96 overflow-y-auto">
                 {filteredBlogs.length > 0 ? (
                   <ul className="space-y-1">
-                    {filteredBlogs.map((post) => (
-                      <li key={post.id}>
-                        <Link
-                          href={`/blog/${post.uid}`}
-                          onClick={() => {
-                            setSearchOpen(false);
-                            setSearchQuery("");
-                          }}
-                          className="block px-4 py-3 rounded-lg hover:bg-gray-100 transition-colors"
-                        >
-                          <span className="text-gray-900 font-medium">
-                            {typeof post.data.title === 'string' 
-                              ? post.data.title 
-                              : post.data.title[0]?.text || 'Untitled'}
-                          </span>
-                        </Link>
-                      </li>
-                    ))}
+                    {filteredBlogs.map((post) => {
+                      const data = post.data as any;
+                      return (
+                        <li key={post.id}>
+                          <Link
+                            href={`/blog/${post.uid}`}
+                            onClick={() => {
+                              setSearchOpen(false);
+                              setSearchQuery("");
+                            }}
+                            className="block px-4 py-3 rounded-lg hover:bg-gray-100 transition-colors"
+                          >
+                            <span className="text-gray-900 font-medium">
+                              {Array.isArray(data?.title) 
+                                ? data.title[0]?.text || 'Untitled'
+                                : (data?.title as string) || 'Untitled'}
+                            </span>
+                          </Link>
+                        </li>
+                      );
+                    })}
                   </ul>
                 ) : (
                   <p className="px-4 py-8 text-center text-gray-500">
@@ -140,7 +138,6 @@ export function Navbar({ blogPosts = [] }: NavbarProps) {
           Sign In
         </button>
 
-        {/* Mobile Menu Trigger */}
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger className="md:hidden flex size-10 items-center justify-center rounded-full bg-white/10 text-white">
             <LuMenu className="size-6" />
