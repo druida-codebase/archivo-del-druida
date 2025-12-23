@@ -11,12 +11,7 @@ export function Loader({ onComplete }: LoaderProps) {
   const [animationComplete, setAnimationComplete] = useState(false);
   const [logoAnimating, setLogoAnimating] = useState(false);
   const animationRef = useRef<number | null>(null);
-  const isStarted = useRef(false);
-  
-  const onCompleteRef = useRef(onComplete);
-  useEffect(() => {
-    onCompleteRef.current = onComplete;
-  }, [onComplete]);
+  const isStarted = useRef(false); 
 
   useEffect(() => {
     if (isStarted.current) return;
