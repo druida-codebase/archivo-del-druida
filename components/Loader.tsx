@@ -11,10 +11,14 @@ export function Loader({ onComplete }: LoaderProps) {
   const [animationComplete, setAnimationComplete] = useState(false);
   const [logoAnimating, setLogoAnimating] = useState(false);
   const animationRef = useRef<number | null>(null);
-  const isStarted = useRef(false); 
+  const isStarted = useRef(false);
+  
+  const onCompleteRef = useRef(onComplete);
+  useEffect(() => {
+    onCompleteRef.current = onComplete;
+  }, [onComplete]);
 
   useEffect(() => {
-    // Only start if it hasn't started yet
     if (isStarted.current) return;
     isStarted.current = true;
 
@@ -44,21 +48,13 @@ export function Loader({ onComplete }: LoaderProps) {
 
     let loadedCount = 0;
     const totalImages = 4;
-    const onImageLoad = () => {
-      loadedCount++;
-      if (loadedCount === totalImages) {
-        startAnimation();
-      }
-    };
-
-    Object.values(images).forEach(img => { img.onload = onImageLoad; });
-
-    let startTime: number | null = null;
-    const shakeDuration = 2000;
-    const moveDuration = 2000;
-    const totalDuration = shakeDuration + moveDuration;
-
+    
     const startAnimation = () => {
+      let startTime: number | null = null;
+      const shakeDuration = 2000;
+      const moveDuration = 2000;
+      const totalDuration = shakeDuration + moveDuration;
+
       const animate = (timestamp: number) => {
         if (!startTime) startTime = timestamp;
         const elapsed = timestamp - startTime;
@@ -69,8 +65,8 @@ export function Loader({ onComplete }: LoaderProps) {
         const centerY = canvas.height / 2;
         
         const baseScale = Math.min(
-          canvas.height * 1.5 / (images.bg.height || 1), 
-          canvas.width * 1.5 / (images.bg.width || 1)
+          (canvas.height * 1.5) / (images.bg.height || 1), 
+          (canvas.width * 1.5) / (images.bg.width || 1)
         );
 
         let shakeX = 0, shakeY = 0;
@@ -104,18 +100,32 @@ export function Loader({ onComplete }: LoaderProps) {
           setLogoAnimating(true);
           setTimeout(() => {
             setAnimationComplete(true);
-            onComplete?.();
+            onCompleteRef.current?.();
           }, 1000); 
         }
       };
       animationRef.current = requestAnimationFrame(animate);
     };
 
+    const onImageLoad = () => {
+      loadedCount++;
+      if (loadedCount === totalImages) {
+        startAnimation();
+      }
+    };
+
+    Object.values(images).forEach(img => { 
+      if (img.complete) onImageLoad();
+      else img.onload = onImageLoad; 
+    });
+
     return () => {
       window.removeEventListener('resize', updateCanvasSize);
-      if (animationRef.current) cancelAnimationFrame(animationRef.current);
+      if (animationRef.current !== null) {
+        cancelAnimationFrame(animationRef.current);
+      }
     };
-  }, [onComplete]);
+  }, []);
 
   if (animationComplete) return null;
 
