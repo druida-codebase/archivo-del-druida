@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
+import { createClient } from "@/prismicio";
 import Link from "next/link"; 
 import { LuMenu, LuX, LuSearch } from "react-icons/lu";
 import { Content } from "@prismicio/client";
@@ -18,12 +19,40 @@ import Logo from "./Logo";
 
 type NavbarProps = {
   blogPosts?: Content.BlogDocument[];
+  variant?: "solid" | "floating";
 };
 
-export function Navbar({ blogPosts = [] }: NavbarProps) {
+export function Navbar({ variant = "solid" }: NavbarProps) {
   const [open, setOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [blogPosts, setBlogPosts] = useState([]);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      const client = createClient();
+      const posts = await client.getAllByType("blog");
+      setBlogPosts(posts);
+    };
+    fetchBlogs();
+  }, []);
+
+  useEffect(() => {
+  if (variant !== "floating") return;
+  const handleScroll = () => {
+    const viewportHeight = window.innerHeight;
+    setIsScrolled(window.scrollY > viewportHeight);
+  };
+  window.addEventListener("scroll", handleScroll);
+  return () => window.removeEventListener("scroll", handleScroll);
+}, [variant]);
+
+const bgClasses = variant === "solid" 
+  ? "bg-black/40 backdrop-blur-xl border-b border-white/10"
+  : variant === "floating" && isScrolled
+    ? "bg-black/40 backdrop-blur-xl border-b border-white/10" 
+    : "bg-transparent border-b-transparent";
 
   const navLinks = [
     { title: "Sobre esto", href: "#about" },
@@ -35,26 +64,17 @@ export function Navbar({ blogPosts = [] }: NavbarProps) {
 
   const filteredBlogs = useMemo(() => {
     if (!searchQuery.trim()) return blogPosts;
-    
     const query = searchQuery.toLowerCase();
     return blogPosts.filter(post => {
-      // Use 'as any' to bypass strict checking on the data object
       const data = post.data as any;
-      const titleField = data?.title;
-      
-      let title = "";
-      if (Array.isArray(titleField)) {
-        title = titleField[0]?.text || "";
-      } else if (typeof titleField === "string") {
-        title = titleField;
-      }
-      
+      const blogSlice = data?.slices?.find((slice: any) => slice.slice_type === 'blog_slice');
+      const title = blogSlice?.primary?.title || '';
       return title.toLowerCase().includes(query);
     });
   }, [searchQuery, blogPosts]);
 
   return (
-    <header className="fixed top-0 right-0 left-0 z-50 flex items-center justify-between p-6 transition-all">
+    <header className={`fixed top-0 right-0 left-0 z-[100] flex items-center justify-between p-6 transition-colors duration-500 ${bgClasses}`}>
       <Link href="/" className="shrink-0 hover:scale-105 transition-transform">
         <Logo className="h-8 w-auto fill-white text-white" /> 
       </Link>
@@ -78,11 +98,9 @@ export function Navbar({ blogPosts = [] }: NavbarProps) {
           </DialogTrigger>
           <DialogPortal>
             <DialogOverlay className="fixed inset-0 z-50 bg-black/60 backdrop-blur-md" />
-            <DialogContent className="fixed top-[20%] left-1/2 -translate-x-1/2 z-50 w-full max-w-2xl bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-6">
+            <DialogContent className="fixed top-[20%] left-1/2 -translate-x-1/2 z-[110] w-full max-w-2xl bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-6">
               <DialogTitle className="sr-only">Search blogs</DialogTitle>
-              <DialogDescription className="sr-only">
-                Search through our blog posts
-              </DialogDescription>
+              <DialogDescription className="sr-only">Search through our blog posts</DialogDescription>
               
               <div className="flex items-center gap-3 mb-4">
                 <LuSearch className="size-5 text-gray-400 flex-shrink-0" />
@@ -101,29 +119,25 @@ export function Navbar({ blogPosts = [] }: NavbarProps) {
 
               <div className="max-h-96 overflow-y-auto">
                 {filteredBlogs.length > 0 ? (
-                  <ul className="space-y-1">
-                    {filteredBlogs.map((post) => {
-                      const data = post.data as any;
-                      return (
-                        <li key={post.id}>
-                          <Link
-                            href={`/blog/${post.uid}`}
-                            onClick={() => {
-                              setSearchOpen(false);
-                              setSearchQuery("");
-                            }}
-                            className="block px-4 py-3 rounded-lg hover:bg-gray-100 transition-colors"
-                          >
-                            <span className="text-gray-900 font-medium">
-                              {Array.isArray(data?.title) 
-                                ? data.title[0]?.text || 'Untitled'
-                                : (data?.title as string) || 'Untitled'}
-                            </span>
-                          </Link>
-                        </li>
-                      );
-                    })}
-                  </ul>
+                  filteredBlogs.map((post) => {
+                    const data = post.data as any;
+                    const blogSlice = data?.slices?.find((slice: any) => slice.slice_type === 'blog_slice');
+                    const title = blogSlice?.primary?.title || 'Untitled';
+                    return (
+                      <li key={post.id} className="list-none">
+                        <Link
+                          href={`/blog/${post.uid}`}
+                          onClick={() => {
+                            setSearchOpen(false);
+                            setSearchQuery("");
+                          }}
+                          className="block px-4 py-3 rounded-lg hover:bg-gray-100 transition-colors"
+                        >
+                          <span className="text-gray-900 font-medium">{title}</span>
+                        </Link>
+                      </li>
+                    );
+                  })
                 ) : (
                   <p className="px-4 py-8 text-center text-gray-500">
                     {searchQuery ? 'No blogs found' : 'Start typing to search...'}
@@ -143,8 +157,8 @@ export function Navbar({ blogPosts = [] }: NavbarProps) {
             <LuMenu className="size-6" />
           </DialogTrigger>
           <DialogPortal>
-            <DialogOverlay className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm" />
-            <DialogContent className="fixed inset-y-0 right-0 z-50 w-full bg-black p-8 shadow-xl">
+            <DialogOverlay className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm" />
+            <DialogContent className="fixed inset-y-0 right-0 z-[110] w-full bg-black p-8 shadow-xl">
               <div className="flex justify-between items-center mb-12">
                 <Logo className="h-6 fill-white" />
                 <DialogClose className="text-white">

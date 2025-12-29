@@ -1,68 +1,99 @@
 import { Content } from "@prismicio/client";
-import { PrismicRichText, SliceComponentProps } from "@prismicio/react";
+import { PrismicRichText, SliceComponentProps, JSXMapSerializer } from "@prismicio/react";
 import { Navbar } from "@/components/Navbar";
 import { createClient } from "@/prismicio";
 import { FadeIn } from "@/components/FadeIn";
 import { PrismicNextImage, PrismicNextLink } from "@prismicio/next";
 
-/**
- * Props for `BlogSlice`.
- */
+const components: JSXMapSerializer = {
+  heading1: ({ children }) => <h1 className="text-4xl font-bold mb-6 text-[#040404]">{children}</h1>,
+  heading2: ({ children }) => <h2 className="text-3xl font-bold mb-4 text-[#040404]">{children}</h2>,
+  heading3: ({ children }) => <h3 className="text-2xl font-bold mb-3 text-[#040404]">{children}</h3>,
+  paragraph: ({ children }) => <p className="mb-4 text-[#040404] leading-relaxed">{children}</p>,
+  listitem: ({ children }) => <li className="mb-2 text-[#040404]">{children}</li>,
+  oListitem: ({ children }) => <li className="mb-2 text-[#040404]">{children}</li>,
+};
+
+const greyComponents: JSXMapSerializer = {
+  paragraph: ({ children }) => <p className="text-sm text-gray-500 mb-2 uppercase tracking-wide">{children}</p>,
+};
+
 export type BlogSliceProps = SliceComponentProps<Content.BlogSliceSlice>;
 
-/**
- * Component for "BlogSlice" Slices.
- */
 const BlogSlice = async ({ slice }: BlogSliceProps) => {
   const client = createClient();
-  
-  // Fetching the blog posts for the search bar
   const blogPosts = await client.getAllByType("blog");
 
   return (
     <section
       data-slice-type={slice.slice_type}
       data-slice-variation={slice.variation}
+      className="flex flex-col items-center bg-[#f1f1f1] min-h-screen pb-20 px-4"
     >
-      <Navbar blogPosts={blogPosts} />
+      <Navbar blogPosts={blogPosts} variant="solid" />
 
-      <FadeIn>
-        <PrismicRichText field={slice.primary.pretitle} />
-        <h2>{slice.primary.title}</h2>
-        <PrismicRichText field={slice.primary.subtitle} />
-      </FadeIn>
+  <div className="max-w-3xl w-full flex flex-col items-center pt-32">
+        <FadeIn>
+          <div className="text-center">
+            <PrismicRichText field={slice.primary.pretitle} components={greyComponents} />
+            <h2 className="text-center text-5xl font-bold text-[#040404] mb-4">
+              {slice.primary.title}
+            </h2>
+            <PrismicRichText field={slice.primary.subtitle} components={components} />
+          </div>
+        </FadeIn>
 
-      <FadeIn>
-        <PrismicNextImage field={slice.primary.bloghero} />
-        <PrismicRichText field={slice.primary.legend} />
-      </FadeIn>
+        <FadeIn>
+          <div className="my-10 w-full">
+            <PrismicNextImage 
+              field={slice.primary.bloghero} 
+              className="rounded-xl shadow-lg w-full object-cover max-h-[500px]" 
+            />
+            <div className="mt-3 text-center">
+              <PrismicRichText field={slice.primary.legend} components={greyComponents} />
+            </div>
+          </div>
+        </FadeIn>
 
-      <PrismicRichText field={slice.primary.maincontent} />
+        <article className="prose prose-slate max-w-none w-full mb-16">
+          <PrismicRichText field={slice.primary.maincontent} components={components} />
+        </article>
 
-      {slice.primary.repeatablecontent.map((item, index) => (
-        <div key={`repeatable-${index}`}>
-          <PrismicNextImage field={item.repeaterimg} />
-          <PrismicRichText field={item.repeaterlegend} />
-          <PrismicRichText field={item.repeatertext} />
+        <div className="space-y-16 w-full">
+          {slice.primary.repeatablecontent.map((item, index) => (
+            <div key={`repeatable-${index}`} className="flex flex-col gap-4">
+              <PrismicNextImage field={item.repeaterimg} className="rounded-lg w-full" />
+              <PrismicRichText field={item.repeaterlegend} components={greyComponents} />
+              <PrismicRichText field={item.repeatertext} components={components} />
+            </div>
+          ))}
         </div>
-      ))}
 
-      {slice.primary.youtubeembed?.html && (
-        <div
-          dangerouslySetInnerHTML={{
-            __html: slice.primary.youtubeembed.html,
-          }}
-        />
-      )}
+        {slice.primary.youtubeembed?.html && (
+          <div
+            className="w-full aspect-video my-12 rounded-xl overflow-hidden shadow-xl [&>iframe]:w-full [&>iframe]:h-full"
+            dangerouslySetInnerHTML={{
+              __html: slice.primary.youtubeembed.html,
+            }}
+          />
+        )}
 
-      {slice.primary.linksgroup.map((item, index) => (
-        <div key={`link-${index}`}>
-          <PrismicNextImage field={item.linkthumbnail} />
-          <h5>{item.linktitle}</h5>
-          <PrismicRichText field={item.linkdescription} />
-          <PrismicNextLink field={item.link} />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-20 w-full border-t border-gray-300 pt-10">
+          {slice.primary.linksgroup.map((item, index) => (
+            <div key={`link-${index}`} className="group flex flex-col">
+              <PrismicNextImage field={item.linkthumbnail} className="rounded-md mb-4 grayscale group-hover:grayscale-0 transition-all" />
+              <h5 className="text-xl font-semibold text-[#040404] mb-2">{item.linktitle}</h5>
+              <PrismicRichText field={item.linkdescription} components={components} />
+              <PrismicNextLink 
+                field={item.link} 
+                className="text-blue-600 font-medium hover:underline mt-auto"
+              >
+                Read More →
+              </PrismicNextLink>
+            </div>
+          ))}
         </div>
-      ))}
+      </div>
     </section>
   );
 };

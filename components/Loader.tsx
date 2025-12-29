@@ -64,10 +64,9 @@ export function Loader({ onComplete }: LoaderProps) {
         const centerX = canvas.width / 2;
         const centerY = canvas.height / 2;
         
-        const baseScale = Math.min(
-          (canvas.height * 1.5) / (images.bg.height || 1), 
-          (canvas.width * 1.5) / (images.bg.width || 1)
-        );
+        const scaleX = canvas.width / (images.bg.width || 1);
+        const scaleY = canvas.height / (images.bg.height || 1);
+        const baseScale = Math.max(scaleX, scaleY) * 1.2;
 
         let shakeX = 0, shakeY = 0;
         if (elapsed < shakeDuration) {
@@ -138,7 +137,7 @@ export function Loader({ onComplete }: LoaderProps) {
         className={`fixed z-[110] transition-all duration-1000 ease-in-out flex flex-col items-center justify-center ${
           logoAnimating 
             ? 'top-12 left-6 w-26 md:w-34 translate-x-0 translate-y-0' 
-            : 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 md:w-96'
+            : 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 md:w-96 h-full'
         }`}
       >
         <svg 
