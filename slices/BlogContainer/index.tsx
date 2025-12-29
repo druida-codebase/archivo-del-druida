@@ -95,13 +95,13 @@ const BlogContainer: FC<BlogContainerProps> = ({ slice }) => {
                           {description && description.length > 0 ? (
                             <PrismicRichText field={description} components={components} />
                           ) : (
-                            <p className="text-gray-400 text-sm">No description available</p>
+                            <p className="text-gray-400 text-sm">No hay descripción disponible</p>
                           )}
                         </div>
 
                         <div className="mt-auto">
                           <span className="text-xs font-bold uppercase tracking-widest text-[#040404] border-b-2 border-[#040404] w-fit pb-1 group-hover:text-[#8C3A7D] group-hover:border-[#8C3A7D] transition-all">
-                            Read Story
+                            Leer Historia
                           </span>
                         </div>
                       </div>
