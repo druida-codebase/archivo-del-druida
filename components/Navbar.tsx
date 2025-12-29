@@ -98,12 +98,12 @@ export function Navbar({ variant = "solid", blogPosts: initialPosts }: NavbarPro
 
       <div className="flex items-center gap-4">
         <Dialog open={searchOpen} onOpenChange={setSearchOpen}>
-          <DialogTrigger className="hidden md:flex size-10 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition-all">
+          <DialogTrigger className="flex size-10 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition-all">
             <LuSearch className="size-5" />
           </DialogTrigger>
           <DialogPortal>
             <DialogOverlay className="fixed inset-0 z-50 bg-black/60 backdrop-blur-md" />
-            <DialogContent className="fixed top-[20%] left-1/2 -translate-x-1/2 z-[110] w-full max-w-2xl bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-6">
+            <DialogContent className="fixed top-[10%] md:top-[20%] left-1/2 -translate-x-1/2 z-[110] w-[90%] max-w-2xl bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-6">
               <DialogTitle className="sr-only">Search blogs</DialogTitle>
               <DialogDescription className="sr-only">Search through our blog posts</DialogDescription>
               
