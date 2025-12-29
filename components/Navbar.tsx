@@ -22,37 +22,42 @@ type NavbarProps = {
   variant?: "solid" | "floating";
 };
 
-export function Navbar({ variant = "solid" }: NavbarProps) {
+export function Navbar({ variant = "solid", blogPosts: initialPosts }: NavbarProps) {
   const [open, setOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [blogPosts, setBlogPosts] = useState([]);
+  const [blogPosts, setBlogPosts] = useState<Content.BlogDocument[]>(initialPosts || []);
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
+    if (initialPosts && initialPosts.length > 0) {
+      setBlogPosts(initialPosts);
+      return;
+    }
+
     const fetchBlogs = async () => {
       const client = createClient();
       const posts = await client.getAllByType("blog");
       setBlogPosts(posts);
     };
     fetchBlogs();
-  }, []);
+  }, [initialPosts]);
 
   useEffect(() => {
-  if (variant !== "floating") return;
-  const handleScroll = () => {
-    const viewportHeight = window.innerHeight;
-    setIsScrolled(window.scrollY > viewportHeight);
-  };
-  window.addEventListener("scroll", handleScroll);
-  return () => window.removeEventListener("scroll", handleScroll);
-}, [variant]);
+    if (variant !== "floating") return;
+    const handleScroll = () => {
+      const viewportHeight = window.innerHeight;
+      setIsScrolled(window.scrollY > viewportHeight);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [variant]);
 
-const bgClasses = variant === "solid" 
-  ? "bg-black/40 backdrop-blur-xl border-b border-white/10"
-  : variant === "floating" && isScrolled
-    ? "bg-black/40 backdrop-blur-xl border-b border-white/10" 
-    : "bg-transparent border-b-transparent";
+  const bgClasses = variant === "solid" 
+    ? "bg-black/40 backdrop-blur-xl border-b border-white/10"
+    : variant === "floating" && isScrolled
+      ? "bg-black/40 backdrop-blur-xl border-b border-white/10" 
+      : "bg-transparent border-b-transparent";
 
   const navLinks = [
     { title: "Sobre esto", href: "#about" },
