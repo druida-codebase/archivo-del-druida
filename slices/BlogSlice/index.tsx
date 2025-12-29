@@ -10,8 +10,8 @@ const components: JSXMapSerializer = {
   heading2: ({ children }) => <h2 className="text-3xl font-bold mb-4 text-[#040404]">{children}</h2>,
   heading3: ({ children }) => <h3 className="text-2xl font-bold mb-3 text-[#040404]">{children}</h3>,
   paragraph: ({ children }) => <p className="mb-4 text-[#040404] leading-relaxed">{children}</p>,
-  listitem: ({ children }) => <li className="mb-2 text-[#040404]">{children}</li>,
-  oListitem: ({ children }) => <li className="mb-2 text-[#040404]">{children}</li>,
+  listItem: ({ children }) => <li className="mb-2 text-[#040404]">{children}</li>,
+  oListItem: ({ children }) => <li className="mb-2 text-[#040404]">{children}</li>,
 };
 
 const greyComponents: JSXMapSerializer = {
@@ -32,7 +32,7 @@ const BlogSlice = async ({ slice }: BlogSliceProps) => {
     >
       <Navbar blogPosts={blogPosts} variant="solid" />
 
-  <div className="max-w-3xl w-full flex flex-col items-center pt-32">
+      <div className="max-w-3xl w-full flex flex-col items-center pt-32">
         <FadeIn>
           <div className="text-center">
             <PrismicRichText field={slice.primary.pretitle} components={greyComponents} />
