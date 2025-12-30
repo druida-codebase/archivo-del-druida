@@ -60,12 +60,12 @@ export function Navbar({ variant = "solid", blogPosts: initialPosts }: NavbarPro
       : "bg-transparent border-b-transparent";
 
   const navLinks = [
-    { title: "Sobre esto", href: "#about" },
-    { title: "Creaciones", href: "#creations" },
-    { title: "Abalorios", href: "#beads" },
-    { title: "Archivo", href: "#archive" },
-    { title: "Equipo", href: "#team" },
-  ];
+  { title: "Sobre esto", href: "/sobre-esto" }, 
+  { title: "Creaciones", href: "/creaciones" },
+  { title: "Abalorios", href: "/abalorios" },
+  { title: "Archivo", href: "/archivo" },
+  { title: "Equipo", href: "/equipo" },
+];
 
   const filteredBlogs = useMemo(() => {
     if (!searchQuery.trim()) return blogPosts;
@@ -153,9 +153,6 @@ export function Navbar({ variant = "solid", blogPosts: initialPosts }: NavbarPro
           </DialogPortal>
         </Dialog>
 
-        <button className="hidden md:block text-sm font-bold text-white bg-white/10 px-5 py-2 rounded-full border border-white/20 hover:bg-white hover:text-black transition-all">
-          Sign In
-        </button>
 
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger className="md:hidden flex size-10 items-center justify-center rounded-full bg-white/10 text-white">
@@ -182,9 +179,6 @@ export function Navbar({ variant = "solid", blogPosts: initialPosts }: NavbarPro
                   </Link>
                 ))}
                 <hr className="border-white/10 my-4" />
-                <button className="text-left text-2xl font-bold text-[#8C3A7D]">
-                  Sign In
-                </button>
               </nav>
             </DialogContent>
           </DialogPortal>

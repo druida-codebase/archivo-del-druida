@@ -49,63 +49,65 @@ export function Loader({ onComplete }: LoaderProps) {
     let loadedCount = 0;
     const totalImages = 4;
     
-    const startAnimation = () => {
-      let startTime: number | null = null;
-      const shakeDuration = 2000;
-      const moveDuration = 2000;
-      const totalDuration = shakeDuration + moveDuration;
+     const startAnimation = () => {
+      setTimeout(() => {
+        let startTime: number | null = null;
+        const shakeDuration = 2000;
+        const moveDuration = 2000;
+        const totalDuration = shakeDuration + moveDuration;
 
-      const animate = (timestamp: number) => {
-        if (!startTime) startTime = timestamp;
-        const elapsed = timestamp - startTime;
-        const progress = Math.min(elapsed / totalDuration, 1);
+        const animate = (timestamp: number) => {
+          if (!startTime) startTime = timestamp;
+          const elapsed = timestamp - startTime;
+          const progress = Math.min(elapsed / totalDuration, 1);
 
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        const centerX = canvas.width / 2;
-        const centerY = canvas.height / 2;
-        
-        const scaleX = canvas.width / (images.bg.width || 1);
-        const scaleY = canvas.height / (images.bg.height || 1);
-        const baseScale = Math.max(scaleX, scaleY) * 1.2;
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          const centerX = canvas.width / 2;
+          const centerY = canvas.height / 2;
+          
+          const scaleX = canvas.width / (images.bg.width || 1);
+          const scaleY = canvas.height / (images.bg.height || 1);
+          const baseScale = Math.max(scaleX, scaleY) * 1.2;
 
-        let shakeX = 0, shakeY = 0;
-        if (elapsed < shakeDuration) {
-          const shakeProgress = elapsed / shakeDuration;
-          const shakeIntensity = 8 * (1 - shakeProgress);
-          shakeX = Math.sin(elapsed * 0.05) * shakeIntensity;
-          shakeY = Math.cos(elapsed * 0.07) * shakeIntensity;
-        }
+          let shakeX = 0, shakeY = 0;
+          if (elapsed < shakeDuration) {
+            const shakeProgress = elapsed / shakeDuration;
+            const shakeIntensity = 8 * (1 - shakeProgress);
+            shakeX = Math.sin(elapsed * 0.05) * shakeIntensity;
+            shakeY = Math.cos(elapsed * 0.07) * shakeIntensity;
+          }
 
-        const moveProgress = Math.max(0, (elapsed - shakeDuration) / moveDuration);
-        const easeOut = 1 - Math.pow(1 - moveProgress, 3);
+          const moveProgress = Math.max(0, (elapsed - shakeDuration) / moveDuration);
+          const easeOut = 1 - Math.pow(1 - moveProgress, 3);
 
-        ctx.globalAlpha = 1 - easeOut;
-        const bgScale = baseScale * (1 + easeOut * 0.3);
-        ctx.drawImage(images.bg, centerX - (images.bg.width * bgScale) / 2, centerY - (images.bg.height * bgScale) / 2, images.bg.width * bgScale, images.bg.height * bgScale);
+          ctx.globalAlpha = 1 - easeOut;
+          const bgScale = baseScale * (1 + easeOut * 0.3);
+          ctx.drawImage(images.bg, centerX - (images.bg.width * bgScale) / 2, centerY - (images.bg.height * bgScale) / 2, images.bg.width * bgScale, images.bg.height * bgScale);
 
-        const drawLeaf = (img: HTMLImageElement, offsetX: number, offsetY: number, moveX: number, moveY: number) => {
-          const w = img.width * baseScale;
-          const h = img.height * baseScale;
-          ctx.drawImage(img, centerX - w / 2 + offsetX + shakeX + (moveX * easeOut), centerY - h / 2 + offsetY + shakeY + (moveY * easeOut), w, h);
+          const drawLeaf = (img: HTMLImageElement, offsetX: number, offsetY: number, moveX: number, moveY: number) => {
+            const w = img.width * baseScale;
+            const h = img.height * baseScale;
+            ctx.drawImage(img, centerX - w / 2 + offsetX + shakeX + (moveX * easeOut), centerY - h / 2 + offsetY + shakeY + (moveY * easeOut), w, h);
+          };
+
+          drawLeaf(images.leaf01, -100, 0, -400, 0);
+          drawLeaf(images.leaf02, 0, -100, 300, -300);
+          drawLeaf(images.leaf03, 100, 100, 300, 600);
+
+          if (progress < 1) {
+            animationRef.current = requestAnimationFrame(animate);
+          } else {
+            setLogoAnimating(true);
+            setTimeout(() => {
+              setAnimationComplete(true);
+              if (onCompleteRef.current) {
+                onCompleteRef.current();
+              }
+            }, 1000); 
+          }
         };
-
-        drawLeaf(images.leaf01, -100, 0, -400, 0);
-        drawLeaf(images.leaf02, 0, -100, 300, -300);
-        drawLeaf(images.leaf03, 100, 100, 300, 600);
-
-        if (progress < 1) {
-          animationRef.current = requestAnimationFrame(animate);
-        } else {
-          setLogoAnimating(true);
-          setTimeout(() => {
-            setAnimationComplete(true);
-            if (onCompleteRef.current) {
-              onCompleteRef.current();
-            }
-          }, 1000); 
-        }
-      };
-      animationRef.current = requestAnimationFrame(animate);
+        animationRef.current = requestAnimationFrame(animate);
+      }, 100); 
     };
 
     const onImageLoad = () => {
