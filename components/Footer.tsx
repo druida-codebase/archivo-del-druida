@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { SiYoutube, SiBandcamp, SiInstagram } from "react-icons/si"; 
-import Logo from "./Logo"; 
+import { IconType } from "react-icons"; // Import the type for the icons
+import Logo from "./Logo";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -9,7 +10,6 @@ export function Footer() {
     <footer className="bg-black text-white py-16 px-6 border-t border-white/5">
       <div className="max-w-7xl mx-auto flex flex-col items-center gap-12">
         
-        {/* Logo Section */}
         <div className="flex flex-col items-center">
           <Logo className="h-8 w-auto fill-white mb-4" />
           <p className="text-xs tracking-[0.3em] uppercase text-gray-500">
@@ -17,7 +17,6 @@ export function Footer() {
           </p>
         </div>
 
-        {/* Social Links */}
         <div className="flex items-center gap-8">
           <SocialIcon 
             href="https://www.youtube.com/@archivodeldruida" 
@@ -36,7 +35,6 @@ export function Footer() {
           />
         </div>
 
-        {/* Bottom Bar */}
         <div className="w-full pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-[10px] uppercase tracking-widest text-gray-600">
             © {currentYear} Todos los derechos reservados.
@@ -53,7 +51,14 @@ export function Footer() {
   );
 }
 
-function SocialIcon({ href, icon: Icon, label }) {
+// Define the Interface for the SocialIcon props
+interface SocialIconProps {
+  href: string;
+  icon: IconType;
+  label: string;
+}
+
+function SocialIcon({ href, icon: Icon, label }: SocialIconProps) {
   return (
     <Link
       href={href}
