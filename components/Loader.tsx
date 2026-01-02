@@ -8,6 +8,7 @@ interface LoaderProps {
 
 export function Loader({ onComplete }: LoaderProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const canvas2Ref = useRef<HTMLCanvasElement>(null);
   const [animationComplete, setAnimationComplete] = useState(false);
   const [logoAnimating, setLogoAnimating] = useState(false);
   const animationRef = useRef<number | null>(null);
@@ -27,9 +28,16 @@ export function Loader({ onComplete }: LoaderProps) {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
+    const canvas2 = canvas2Ref.current;
+    if (!canvas2) return;
+    const ctx2 = canvas2.getContext('2d');
+    if (!ctx2) return;
+
     const updateCanvasSize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
+      canvas2.width = window.innerWidth;
+      canvas2.height = window.innerHeight;
     };
     updateCanvasSize();
     window.addEventListener('resize', updateCanvasSize);
@@ -62,6 +70,7 @@ export function Loader({ onComplete }: LoaderProps) {
           const progress = Math.min(elapsed / totalDuration, 1);
 
           ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
           const centerX = canvas.width / 2;
           const centerY = canvas.height / 2;
           
@@ -92,7 +101,10 @@ export function Loader({ onComplete }: LoaderProps) {
 
           drawLeaf(images.leaf01, -100, 0, -400, 0);
           drawLeaf(images.leaf02, 0, -100, 300, -300);
-          drawLeaf(images.leaf03, 100, 100, 300, 600);
+
+          const w3 = images.leaf03.width * baseScale;
+          const h3 = images.leaf03.height * baseScale;
+          ctx2.drawImage(images.leaf03, centerX - w3 / 2 + 100 + shakeX + (300 * easeOut), centerY - h3 / 2 + 100 + shakeY + (600 * easeOut), w3, h3);
 
           if (progress < 1) {
             animationRef.current = requestAnimationFrame(animate);
@@ -134,9 +146,10 @@ export function Loader({ onComplete }: LoaderProps) {
 
   return (
     <div className="fixed inset-0 z-[100] flex h-full w-full items-center justify-center bg-black overflow-hidden">
-      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
+      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full z-[101]" />
+      <canvas ref={canvas2Ref} className="absolute inset-0 w-full h-full z-[103]" />
       <div
-        className={`fixed z-[110] transition-all duration-1000 ease-in-out flex flex-col items-center justify-center ${
+        className={`fixed z-[102] transition-all duration-1000 ease-in-out flex flex-col items-center justify-center ${
           logoAnimating 
             ? 'top-12 left-6 w-26 md:w-34 translate-x-0 translate-y-0' 
             : 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 md:w-96 h-full'
