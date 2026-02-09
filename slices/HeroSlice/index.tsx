@@ -30,26 +30,32 @@ const HeroSlice: FC<HeroSliceProps> = ({ slice }) => {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setStatus("loading");
+  e.preventDefault();
+  setStatus("loading");
 
-    try {
-      const res = await fetch("/api/subscribe", {
-        method: "POST",
-        body: JSON.stringify({ email }),
-        headers: { "Content-Type": "application/json" },
-      });
+  try {
+    const res = await fetch("/api/subscribe", {
+      method: "POST",
+      body: JSON.stringify({ email }),
+      headers: { "Content-Type": "application/json" },
+    });
 
-      if (res.ok) {
-        setStatus("success");
-        setEmail("");
-      } else {
-        setStatus("error");
-      }
-    } catch (err) {
+    const data = await res.json();
+
+    if (res.ok) {
+      setStatus("success");
+      setEmail("");
+      // Optional: Reset status after 3 seconds
+      setTimeout(() => setStatus("idle"), 3000);
+    } else {
+      console.error('Subscription failed:', data.error);
       setStatus("error");
     }
-  };
+  } catch (err) {
+    console.error('Network error:', err);
+    setStatus("error");
+  }
+};
 
   return (
     <section
