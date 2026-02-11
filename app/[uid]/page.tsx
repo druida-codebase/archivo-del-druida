@@ -1,16 +1,38 @@
+import { Metadata } from "next"; // Added for types
 import { notFound } from "next/navigation";
 import { SliceZone } from "@prismicio/react";
+import * as prismic from "@prismicio/client"; // Added to use asText
 import { createClient } from "@/prismicio";
 import { components } from "@/slices";
 
-export default async function Page({ params }: { params: Promise<{ uid: string }> }) {
+type Params = Promise<{ uid: string }>;
+
+
+export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
+  const { uid } = await params;
+  const client = createClient();
+  
+  try {
+    const page = await client.getByUID("contentpage", uid);
+
+
+    const formattedTitle = page.uid.replaceAll("-", " ");
+
+    return {
+      title: formattedTitle.charAt(0).toUpperCase() + formattedTitle.slice(1) || "Info", 
+      description: page.data.meta_description,
+    };
+  } catch (e) {
+    return { title: "Info" };
+  }
+}
+
+export default async function Page({ params }: { params: Params }) {
   const { uid } = await params;
   const client = createClient();
 
   try {
-    // 1. Log the UID being searched
     console.log("🔍 Attempting to fetch contentpage with UID:", uid);
-
     const page = await client.getByUID("contentpage", uid);
 
     return (
@@ -19,8 +41,7 @@ export default async function Page({ params }: { params: Promise<{ uid: string }
       </main>
     );
   } catch (error) {
-    // 2. Log the exact error if it fails
-    console.error(`❌ Error fetching page for UID: ${uid}. Check if 'contentpage' is the correct API ID.`);
+    console.error(`❌ Error fetching page for UID: ${uid}.`);
     notFound();
   }
 }
