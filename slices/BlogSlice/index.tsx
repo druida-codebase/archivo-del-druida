@@ -17,7 +17,7 @@ const components: JSXMapSerializer = {
 };
 
 const greyComponents: JSXMapSerializer = {
-  paragraph: ({ children }) => <p className="text-sm text-gray-500 mb-2 uppercase tracking-wide">{children}</p>,
+  paragraph: ({ children }) => <p className="text-sm text-gray-500 mb-2 tracking-wide">{children}</p>,
 };
 
 export type BlogSliceProps = SliceComponentProps<Content.BlogSliceSlice> & {
