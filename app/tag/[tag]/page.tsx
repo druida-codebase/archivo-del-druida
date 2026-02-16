@@ -10,7 +10,6 @@ export default async function TagPage({ params }: { params: Promise<{ tag: strin
   const client = createClient();
 
   try {
-    // We query the "blog" type, filtering by the tags array
     const posts = await client.getAllByType("blog", {
       filters: [prismic.filter.at("document.tags", [decodedTag])],
       orderings: [{ field: "document.first_publication_date", direction: "desc" }],
@@ -23,7 +22,6 @@ export default async function TagPage({ params }: { params: Promise<{ tag: strin
         <h1 className="text-4xl font-bold mb-12 capitalize">Etiqueta: {decodedTag}</h1>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {posts.map((post) => {
-            // Manual data extraction from your blog slices
             const blogData = post.data.slices.find((s: any) => s.slice_type === "blog_slice")?.primary;
 
             return (
