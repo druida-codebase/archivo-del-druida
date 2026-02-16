@@ -62,7 +62,6 @@ export function Navbar({ variant = "solid", blogPosts: initialPosts }: NavbarPro
   const navLinks = [
   { title: "Sobre esto", href: "/sobre-esto" }, 
   { title: "Creación", href: "/creaciones" },
-  { title: "Abalorios", href: "/abalorios" },
   { title: "Archivo", href: "/archivo" },
   { title: "Equipo", href: "/equipo" },
 ];
