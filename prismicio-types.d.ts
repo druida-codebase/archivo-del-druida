@@ -736,6 +736,36 @@ export type HeroSliceSlice = prismic.SharedSlice<
   HeroSliceSliceVariation
 >;
 
+/**
+ * Default variation for TagSlice Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type TagSliceSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Record<string, never>,
+  never
+>;
+
+/**
+ * Slice variation for *TagSlice*
+ */
+type TagSliceSliceVariation = TagSliceSliceDefault;
+
+/**
+ * TagSlice Shared Slice
+ *
+ * - **API ID**: `tag_slice`
+ * - **Description**: TagSlice
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type TagSliceSlice = prismic.SharedSlice<
+  "tag_slice",
+  TagSliceSliceVariation
+>;
+
 declare module "@prismicio/client" {
   interface CreateClient {
     (
@@ -789,6 +819,9 @@ declare module "@prismicio/client" {
       HeroSliceSliceDefaultPrimary,
       HeroSliceSliceVariation,
       HeroSliceSliceDefault,
+      TagSliceSlice,
+      TagSliceSliceVariation,
+      TagSliceSliceDefault,
     };
   }
 }

@@ -8,4 +8,5 @@ export const components = {
   blog_slice: dynamic(() => import("./BlogSlice")),
   creacion_slice: dynamic(() => import("./ContentSlice")),
   hero_slice: dynamic(() => import("./HeroSlice")),
+  tag_slice: dynamic(() => import("./TagSlice")),
 };

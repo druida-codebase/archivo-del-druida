@@ -16,7 +16,7 @@ const components: JSXMapSerializer = {
 
 const greyComponents: JSXMapSerializer = {
   paragraph: ({ children }) => (
-    <p className="text-sm text-gray-500 mb-2 uppercase tracking-[0.2em] font-medium">
+    <p className="text-sm text-gray-500 mb-2  tracking-[0.2em] font-medium">
       {children}
     </p>
   ),

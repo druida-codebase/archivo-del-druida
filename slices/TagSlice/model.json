@@ -1,0 +1,16 @@
+{
+  "id": "tag_slice",
+  "type": "SharedSlice",
+  "name": "TagSlice",
+  "description": "TagSlice",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": ""
+    }
+  ]
+}
