@@ -92,9 +92,21 @@ const CreacionSlice = ({ slice, blogPosts }: CreacionSliceProps) => {
 
           <div className="mt-20 pt-10 border-t border-gray-200 w-full text-center">
             <p className="text-gray-400 italic mb-4">¿Te gusta esta pieza?</p>
-            <button className="px-8 py-3 bg-black text-white rounded-full font-bold hover:bg-[#7c5139] transition-colors">
-              Apoya al artista en Patreon
-            </button>
+            <a 
+
+              href="https://ko-fi.com/elarchivodeldruida" 
+
+              target="_blank" 
+
+              rel="noopener noreferrer"
+
+              className="px-8 py-3 bg-black text-white rounded-full font-bold hover:bg-[#7c5139] transition-colors inline-block"
+
+            >
+
+              Invítale un té al druida
+
+            </a>
           </div>
         </div>
       </div>

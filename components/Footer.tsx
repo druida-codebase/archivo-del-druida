@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { SiYoutube, SiBandcamp, SiInstagram } from "react-icons/si"; 
+import { SiYoutube, SiBandcamp } from "react-icons/si"; 
 import { IconType } from "react-icons"; // Import the type for the icons
 import Logo from "./Logo";
 
@@ -27,11 +27,6 @@ export function Footer() {
             href="https://eltransparente.bandcamp.com" 
             icon={SiBandcamp} 
             label="Bandcamp"
-          />
-          <SocialIcon 
-            href="#" 
-            icon={SiInstagram} 
-            label="Instagram"
           />
         </div>
 
