@@ -246,7 +246,7 @@ export default function Form({ draft, setDraft }: FormProps) {
 
                     <L>Sequedad de la hebra:</L>
                     <select style={selectStyle} value={draft.analisis.sequedadHebra}
-                        onChange={e => patchNested(setDraft, 'analisis', { sequedadHebra: e.target.value })}>
+                        onChange={e => patchNested(setDraft, 'analisis', { sequedadHebra: e.target.value as any })}>
                         <option value="">Elige una...</option>
                         {sequedadData.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
                     </select>
@@ -259,7 +259,7 @@ export default function Form({ draft, setDraft }: FormProps) {
 
                     <L>Técnica de infusión:</L>
                     <select style={selectStyle} value={draft.analisis.metodo}
-                        onChange={e => patchNested(setDraft, 'analisis', { metodo: e.target.value })}>
+                        onChange={e => patchNested(setDraft, 'analisis', { metodo: e.target.value as any})}>
                         <option value="">Elige una...</option>
                         {tecnicaData.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
                     </select>
