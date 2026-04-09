@@ -367,7 +367,7 @@ export const ReportSchema = z.object({
     analisis: AnalysisSchema,
     infusiones: z.array(InfusionSchema).default([]),
     postinfusion: PostinfusionSchema,
-    fecha: z.date(""),
+    fecha: z.date(),
     reviewer: z.string().optional().default("")
 })
 
