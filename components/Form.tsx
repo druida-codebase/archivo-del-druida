@@ -208,14 +208,14 @@ export default function Form({ draft, setDraft }: FormProps) {
 
                     <L>Corte:</L>
                     <select style={selectStyle} value={draft.analisis.corte}
-                        onChange={e => patchNested(setDraft, 'analisis', { corte: e.target.value })}>
+                        onChange={e => patchNested(setDraft, 'analisis', { corte: e.target.value as any })}>
                         <option value="">Seleccionar corte...</option>
                         {corteData.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
                     </select>
 
                     <L>Manufactura:</L>
                     <select style={selectStyle} value={draft.analisis.manufactura}
-                        onChange={e => patchNested(setDraft, 'analisis', { manufactura: e.target.value })}>
+                        onChange={e => patchNested(setDraft, 'analisis', { manufactura: e.target.value as any })}>
                         <option value="">Seleccionar manufactura...</option>
                         {manufacturaData.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
                     </select>
@@ -339,7 +339,7 @@ export default function Form({ draft, setDraft }: FormProps) {
                                     <L>{label}:</L>
                                     <select style={selectStyle}
                                         value={(infusion as any)[field]}
-                                        onChange={e => patchInfusion(setDraft, index, { [field]: e.target.value })}>
+                                       onChange={e => patchInfusion(setDraft, index, { [field]: e.target.value as any })}>
                                         <option value="">Elige uno...</option>
                                         {data.map((o: any) => <option key={o.value} value={o.value}>{o.label}</option>)}
                                     </select>
@@ -402,14 +402,14 @@ export default function Form({ draft, setDraft }: FormProps) {
 
                     <L>Tacto:</L>
                     <select style={selectStyle} value={draft.postinfusion.tacto}
-                        onChange={e => patchNested(setDraft, 'postinfusion', { tacto: e.target.value })}>
+                       onChange={e => patchNested(setDraft, 'postinfusion', { tacto: e.target.value as any })}>
                         <option value="">Elige uno...</option>
                         {tactoData.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
                     </select>
 
                     <L>Simetría:</L>
                     <select style={selectStyle} value={draft.postinfusion.simetria}
-                        onChange={e => patchNested(setDraft, 'postinfusion', { simetria: e.target.value })}>
+                        onChange={e => patchNested(setDraft, 'postinfusion', { simetria: e.target.value as any })}>
                         <option value="">Elige uno...</option>
                         {simetriaData.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
                     </select>
@@ -430,7 +430,7 @@ export default function Form({ draft, setDraft }: FormProps) {
 
                     <L>Clasificador:</L>
                     <select style={selectStyle} value={draft.postinfusion.clasificadores}
-                        onChange={e => patchNested(setDraft, 'postinfusion', { clasificadores: e.target.value })}>
+                        onChange={e => patchNested(setDraft, 'postinfusion', { clasificadores: e.target.value as any })}>
                         <option value="">Elige uno...</option>
                         {clasificadoresData.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
                     </select>
