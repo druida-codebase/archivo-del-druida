@@ -15,6 +15,7 @@ import { useRef, useState } from 'react';
 import { AromaSelector } from './AromaSelector';
 import { OrigenSelector } from './OrigenSelector';
 import { TiposSelector } from './TipoSelector';
+
 type FormProps = {
     draft: ReportType;
     setDraft: React.Dispatch<React.SetStateAction<ReportType>>;
@@ -73,11 +74,42 @@ const formatErrors = (issues: any[]) => {
     });
 };
 
-const inputClass = "bg-bg-surface border border-border-subtle text-primary-text p-3 rounded-lg mb-4 w-full";
-const selectClass = "bg-bg-surface border border-border-subtle text-primary-text p-3 rounded-lg mb-4 w-full";
+// Tea theme colors as plain constants
+const T = {
+    primaryText: '#F5ECD7',
+    secondaryText: '#8B7355',
+    accent: '#C9A84C',
+    accentSoft: '#E8C96D',
+    bgMain: '#0D0A07',
+    bgSurface: '#1A1209',
+    borderSubtle: '#2C1A0E',
+};
+
+const inputStyle: React.CSSProperties = {
+    backgroundColor: T.bgSurface,
+    border: `1px solid ${T.borderSubtle}`,
+    color: T.primaryText,
+    padding: '12px',
+    borderRadius: '8px',
+    marginBottom: '16px',
+    width: '100%',
+    outline: 'none',
+};
+
+const selectStyle: React.CSSProperties = {
+    ...inputStyle,
+};
+
+const cardStyle: React.CSSProperties = {
+    margin: '16px',
+    padding: '16px',
+    borderRadius: '12px',
+    backgroundColor: T.bgSurface + '66', // ~40% opacity
+    border: `1px solid ${T.borderSubtle}`,
+};
 
 const L = ({ children }: { children: React.ReactNode }) => (
-    <label className="text-secondary-text text-xs font-bold uppercase mb-1 tracking-wider block">
+    <label style={{ color: T.secondaryText, fontSize: '11px', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: '4px', letterSpacing: '0.1em', display: 'block' }}>
         {children}
     </label>
 );
@@ -139,25 +171,27 @@ export default function Form({ draft, setDraft }: FormProps) {
     };
 
     return (
-        <div ref={scrollRef} className="flex-1 bg-bg-main overflow-y-auto pb-10">
-
+        <div
+            ref={scrollRef}
+            style={{ flex: 1, backgroundColor: T.bgMain, color: T.primaryText, overflowY: 'auto', paddingBottom: '40px' }}
+        >
             {/* STEP 0 - INTRO */}
             {step === 0 && (
-                <div className="m-4 p-4 rounded-xl bg-bg-surface/40 border border-border-subtle">
-                    <span className="text-accent font-bold mb-4 block">Paso {step + 1}</span>
+                <div style={cardStyle}>
+                    <span style={{ color: T.accent, fontWeight: 'bold', marginBottom: '16px', display: 'block' }}>Paso {step + 1}</span>
 
                     <L>Hecho por:</L>
-                    <input className={inputClass} value={draft.reviewer}
+                    <input style={inputStyle} value={draft.reviewer}
                         onChange={e => setDraft(prev => ({ ...prev, reviewer: e.target.value }))} />
 
-                    <p className="text-xl font-serif text-accent-soft mb-6">Análisis sensorial</p>
+                    <p style={{ fontSize: '20px', fontFamily: 'serif', color: T.accentSoft, marginBottom: '24px' }}>Análisis sensorial</p>
 
                     <L>Nombre del té:</L>
-                    <input className={inputClass} value={draft.analisis.nombre}
+                    <input style={inputStyle} value={draft.analisis.nombre}
                         onChange={e => patchNested(setDraft, 'analisis', { nombre: e.target.value })} />
 
                     <L>Procedencia:</L>
-                    <div className="mb-4">
+                    <div style={{ marginBottom: '16px' }}>
                         <OrigenSelector
                             selected={draft.analisis.region}
                             onChange={value => patchNested(setDraft, 'analisis', { region: value as typeof regionesOptions[number] })}
@@ -165,7 +199,7 @@ export default function Form({ draft, setDraft }: FormProps) {
                     </div>
 
                     <L>Tipo de té:</L>
-                    <div className="mb-4">
+                    <div style={{ marginBottom: '16px' }}>
                         <TiposSelector
                             selected={draft.analisis.tipo}
                             onChange={value => patchNested(setDraft, 'analisis', { tipo: value as typeof tiposOptions[number] })}
@@ -173,14 +207,14 @@ export default function Form({ draft, setDraft }: FormProps) {
                     </div>
 
                     <L>Corte:</L>
-                    <select className={selectClass} value={draft.analisis.corte}
+                    <select style={selectStyle} value={draft.analisis.corte}
                         onChange={e => patchNested(setDraft, 'analisis', { corte: e.target.value })}>
                         <option value="">Seleccionar corte...</option>
                         {corteData.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
                     </select>
 
                     <L>Manufactura:</L>
-                    <select className={selectClass} value={draft.analisis.manufactura}
+                    <select style={selectStyle} value={draft.analisis.manufactura}
                         onChange={e => patchNested(setDraft, 'analisis', { manufactura: e.target.value })}>
                         <option value="">Seleccionar manufactura...</option>
                         {manufacturaData.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
@@ -190,28 +224,28 @@ export default function Form({ draft, setDraft }: FormProps) {
 
             {/* STEP 1 - PREINFUSION */}
             {step === 1 && (
-                <div className="m-4 p-4 rounded-xl bg-bg-surface/40 border border-border-subtle">
-                    <span className="text-accent font-bold mb-2 block">Paso {step + 1}</span>
-                    <p className="text-xl font-serif text-accent-soft mb-6">Preinfusión</p>
+                <div style={cardStyle}>
+                    <span style={{ color: T.accent, fontWeight: 'bold', marginBottom: '8px', display: 'block' }}>Paso {step + 1}</span>
+                    <p style={{ fontSize: '20px', fontFamily: 'serif', color: T.accentSoft, marginBottom: '24px' }}>Preinfusión</p>
 
                     <L>Forma y textura de la hebra:</L>
-                    <input className={inputClass} value={draft.analisis.formaHierba}
+                    <input style={inputStyle} value={draft.analisis.formaHierba}
                         onChange={e => patchNested(setDraft, 'analisis', { formaHierba: e.target.value })} />
 
                     <L>Cantidad de té:</L>
-                    <input className={inputClass} type="number" value={draft.analisis.cantidad}
+                    <input style={inputStyle} type="number" value={draft.analisis.cantidad}
                         onChange={e => patchNested(setDraft, 'analisis', { cantidad: Number(e.target.value) })} />
 
                     <L>Granulometría:</L>
-                    <input className={inputClass} value={draft.analisis.granulometria}
+                    <input style={inputStyle} value={draft.analisis.granulometria}
                         onChange={e => patchNested(setDraft, 'analisis', { granulometria: e.target.value })} />
 
                     <L>Color de la hebra:</L>
-                    <input className={inputClass} value={draft.analisis.colorHebra}
+                    <input style={inputStyle} value={draft.analisis.colorHebra}
                         onChange={e => patchNested(setDraft, 'analisis', { colorHebra: e.target.value })} />
 
                     <L>Sequedad de la hebra:</L>
-                    <select className={selectClass} value={draft.analisis.sequedadHebra}
+                    <select style={selectStyle} value={draft.analisis.sequedadHebra}
                         onChange={e => patchNested(setDraft, 'analisis', { sequedadHebra: e.target.value })}>
                         <option value="">Elige una...</option>
                         {sequedadData.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
@@ -224,7 +258,7 @@ export default function Form({ draft, setDraft }: FormProps) {
                     />
 
                     <L>Técnica de infusión:</L>
-                    <select className={selectClass} value={draft.analisis.metodo}
+                    <select style={selectStyle} value={draft.analisis.metodo}
                         onChange={e => patchNested(setDraft, 'analisis', { metodo: e.target.value })}>
                         <option value="">Elige una...</option>
                         {tecnicaData.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
@@ -234,37 +268,37 @@ export default function Form({ draft, setDraft }: FormProps) {
 
             {/* STEP 2 - INFUSIONES */}
             {step === 2 && (
-                <div className="m-4">
-                    <span className="text-accent font-bold mb-2 block">Paso {step + 1}</span>
+                <div style={{ margin: '16px' }}>
+                    <span style={{ color: T.accent, fontWeight: 'bold', marginBottom: '8px', display: 'block' }}>Paso {step + 1}</span>
                     {draft.infusiones.map((infusion, index) => index === currentInfusion && (
                         <div key={index}>
-                            <p className="text-xl font-serif text-accent-soft mb-6 uppercase tracking-widest text-center">
+                            <p style={{ fontSize: '20px', fontFamily: 'serif', color: T.accentSoft, marginBottom: '24px', textTransform: 'uppercase', letterSpacing: '0.2em', textAlign: 'center' }}>
                                 Infusión {index + 1}
                             </p>
 
-                            <div className="flex gap-4 p-4 rounded-xl bg-bg-surface border border-border-subtle mb-6">
-                                <div className="flex-1">
+                            <div style={{ display: 'flex', gap: '16px', padding: '16px', borderRadius: '12px', backgroundColor: T.bgSurface, border: `1px solid ${T.borderSubtle}`, marginBottom: '24px' }}>
+                                <div style={{ flex: 1 }}>
                                     <L>Temp (°C):</L>
-                                    <input className={inputClass} type="number" value={infusion.temperatura || ''}
+                                    <input style={inputStyle} type="number" value={infusion.temperatura || ''}
                                         onChange={e => patchInfusion(setDraft, index, { temperatura: Number(e.target.value) })} />
                                 </div>
-                                <div className="flex-1">
+                                <div style={{ flex: 1 }}>
                                     <L>Tiempo (s):</L>
-                                    <input className={inputClass} type="number" value={infusion.tiempo || ''}
+                                    <input style={inputStyle} type="number" value={infusion.tiempo || ''}
                                         onChange={e => patchInfusion(setDraft, index, { tiempo: Number(e.target.value) })} />
                                 </div>
                             </div>
 
                             <L>Color del licor:</L>
-                            <input className={inputClass} value={infusion.colorLicor}
+                            <input style={inputStyle} value={infusion.colorLicor}
                                 onChange={e => patchInfusion(setDraft, index, { colorLicor: e.target.value })} />
 
                             <L>Color del aro:</L>
-                            <input className={inputClass} value={infusion.colorAro}
+                            <input style={inputStyle} value={infusion.colorAro}
                                 onChange={e => patchInfusion(setDraft, index, { colorAro: e.target.value })} />
 
                             <L>Aroma:</L>
-                            <div className="mb-4">
+                            <div style={{ marginBottom: '16px' }}>
                                 <AromaSelector
                                     selected={infusion.aroma}
                                     onChange={items => patchInfusion(setDraft, index, { aroma: items })}
@@ -272,7 +306,7 @@ export default function Form({ draft, setDraft }: FormProps) {
                             </div>
 
                             <input
-                                className={inputClass}
+                                style={inputStyle}
                                 placeholder="Otros aromas (separados por coma)..."
                                 value={infusion.aromaPersonalizado.join(', ')}
                                 onChange={e => {
@@ -282,7 +316,7 @@ export default function Form({ draft, setDraft }: FormProps) {
                             />
 
                             <L>Sabor base:</L>
-                            <select className={selectClass} value={infusion.sabor[0]}
+                            <select style={selectStyle} value={infusion.sabor[0]}
                                 onChange={e => patchInfusion(setDraft, index, { sabor: [e.target.value, ...infusion.sabor.slice(1)] })}>
                                 <option value="">Elige uno...</option>
                                 {saborData.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
@@ -294,7 +328,7 @@ export default function Form({ draft, setDraft }: FormProps) {
                                 onChange={values => patchInfusion(setDraft, index, { sabor: [infusion.sabor[0], ...values] })}
                             />
 
-                            {([ 
+                            {([
                                 ['amargor', amargorData, 'Amargor'],
                                 ['acidez', acidezData, 'Acidez'],
                                 ['astringencia', astringenciaData, 'Astringencia'],
@@ -303,7 +337,7 @@ export default function Form({ draft, setDraft }: FormProps) {
                             ] as const).map(([field, data, label]) => (
                                 <div key={field}>
                                     <L>{label}:</L>
-                                    <select className={selectClass}
+                                    <select style={selectStyle}
                                         value={(infusion as any)[field]}
                                         onChange={e => patchInfusion(setDraft, index, { [field]: e.target.value })}>
                                         <option value="">Elige uno...</option>
@@ -313,11 +347,11 @@ export default function Form({ draft, setDraft }: FormProps) {
                             ))}
 
                             <L>Sensación:</L>
-                            <input className={inputClass} value={infusion.sensacion}
+                            <input style={inputStyle} value={infusion.sensacion}
                                 onChange={e => patchInfusion(setDraft, index, { sensacion: e.target.value })} />
 
                             <L>Calificación (0-5):</L>
-                            <input className={inputClass} type="number" min={0} max={5} step={0.1}
+                            <input style={inputStyle} type="number" min={0} max={5} step={0.1}
                                 value={infusion.score}
                                 onChange={e => patchInfusion(setDraft, index, { score: Math.min(5, Math.max(0, Number(e.target.value))) })} />
                         </div>
@@ -326,20 +360,20 @@ export default function Form({ draft, setDraft }: FormProps) {
             )}
 
             {step === 2 && (
-                <div className="px-4 flex flex-col gap-y-3">
+                <div style={{ padding: '0 16px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
                     {currentInfusion > 0 && (
-                        <button className="p-4 border border-border-subtle rounded-xl text-secondary-text"
+                        <button style={{ padding: '16px', border: `1px solid ${T.borderSubtle}`, borderRadius: '12px', color: T.secondaryText, background: 'transparent' }}
                             onClick={() => { setCurrentInfusion(currentInfusion - 1); scrollTop(); }}>
                             Infusión anterior
                         </button>
                     )}
                     {currentInfusion < draft.infusiones.length - 1 && (
-                        <button className="p-4 border border-border-subtle rounded-xl text-secondary-text"
+                        <button style={{ padding: '16px', border: `1px solid ${T.borderSubtle}`, borderRadius: '12px', color: T.secondaryText, background: 'transparent' }}
                             onClick={() => { setCurrentInfusion(currentInfusion + 1); scrollTop(); }}>
                             Infusión siguiente
                         </button>
                     )}
-                    <button className="p-4 bg-bg-surface border border-border-subtle rounded-xl font-bold text-primary-text"
+                    <button style={{ padding: '16px', backgroundColor: T.bgSurface, border: `1px solid ${T.borderSubtle}`, borderRadius: '12px', fontWeight: 'bold', color: T.primaryText }}
                         onClick={() => {
                             if (!validateStep(2)) return;
                             addInfusion();
@@ -349,12 +383,12 @@ export default function Form({ draft, setDraft }: FormProps) {
                         Agregar infusión
                     </button>
                     {currentInfusion === 0 && (
-                        <button className="p-4 border border-border-subtle rounded-xl text-secondary-text"
+                        <button style={{ padding: '16px', border: `1px solid ${T.borderSubtle}`, borderRadius: '12px', color: T.secondaryText, background: 'transparent' }}
                             onClick={() => { removeInfusion(currentInfusion); scrollTop(); }}>
                             Eliminar infusión
                         </button>
                     )}
-                    <button className="p-4 border border-accent rounded-xl text-accent font-bold"
+                    <button style={{ padding: '16px', border: `1px solid ${T.accent}`, borderRadius: '12px', color: T.accent, fontWeight: 'bold', background: 'transparent' }}
                         onClick={() => { if (!validateAllInfusions()) return; setStep(3); scrollTop(); }}>
                         Terminar infusiones
                     </button>
@@ -363,18 +397,18 @@ export default function Form({ draft, setDraft }: FormProps) {
 
             {/* STEP 3 - POSTINFUSION */}
             {step === 3 && (
-                <div className="m-4 p-4 rounded-xl bg-bg-surface/40 border border-border-subtle">
-                    <p className="text-xl font-serif text-accent-soft mb-6">Postinfusión</p>
+                <div style={cardStyle}>
+                    <p style={{ fontSize: '20px', fontFamily: 'serif', color: T.accentSoft, marginBottom: '24px' }}>Postinfusión</p>
 
                     <L>Tacto:</L>
-                    <select className={selectClass} value={draft.postinfusion.tacto}
+                    <select style={selectStyle} value={draft.postinfusion.tacto}
                         onChange={e => patchNested(setDraft, 'postinfusion', { tacto: e.target.value })}>
                         <option value="">Elige uno...</option>
                         {tactoData.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
                     </select>
 
                     <L>Simetría:</L>
-                    <select className={selectClass} value={draft.postinfusion.simetria}
+                    <select style={selectStyle} value={draft.postinfusion.simetria}
                         onChange={e => patchNested(setDraft, 'postinfusion', { simetria: e.target.value })}>
                         <option value="">Elige uno...</option>
                         {simetriaData.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
@@ -387,37 +421,37 @@ export default function Form({ draft, setDraft }: FormProps) {
                     />
 
                     <L>Maridaje:</L>
-                    <input className={inputClass} value={draft.postinfusion.maridaje}
+                    <input style={inputStyle} value={draft.postinfusion.maridaje}
                         onChange={e => patchNested(setDraft, 'postinfusion', { maridaje: e.target.value })} />
 
                     <L>Observaciones:</L>
-                    <textarea className={inputClass} rows={4} value={draft.postinfusion.observaciones}
+                    <textarea style={{ ...inputStyle, resize: 'vertical' }} rows={4} value={draft.postinfusion.observaciones}
                         onChange={e => patchNested(setDraft, 'postinfusion', { observaciones: e.target.value })} />
 
                     <L>Clasificador:</L>
-                    <select className={selectClass} value={draft.postinfusion.clasificadores}
+                    <select style={selectStyle} value={draft.postinfusion.clasificadores}
                         onChange={e => patchNested(setDraft, 'postinfusion', { clasificadores: e.target.value })}>
                         <option value="">Elige uno...</option>
                         {clasificadoresData.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
                     </select>
 
-                    <button className="p-4 bg-accent rounded-xl text-bg-main font-bold w-full" onClick={handleSave}>
+                    <button style={{ padding: '16px', backgroundColor: T.accent, borderRadius: '12px', color: T.bgMain, fontWeight: 'bold', width: '100%', marginTop: '16px', border: 'none' }} onClick={handleSave}>
                         Guardar Reporte
                     </button>
                 </div>
             )}
 
             {/* NAV */}
-            <div className="flex justify-between p-4 mt-6 border-t border-border-subtle">
+            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '16px', marginTop: '24px', borderTop: `1px solid ${T.borderSubtle}` }}>
                 {step > 0 ? (
-                    <button className="p-4 flex-1 mr-2 border border-border-subtle rounded-xl text-primary-text"
+                    <button style={{ padding: '16px', flex: 1, marginRight: '8px', border: `1px solid ${T.borderSubtle}`, borderRadius: '12px', color: T.primaryText, background: 'transparent' }}
                         onClick={() => { setStep(step - 1); scrollTop(); }}>
                         Atrás
                     </button>
-                ) : <div className="flex-1" />}
+                ) : <div style={{ flex: 1 }} />}
 
-                {step < 2 && (
-                    <button className="p-4 flex-1 ml-2 bg-accent rounded-xl text-bg-main font-bold"
+                {step < 3 && (
+                    <button style={{ padding: '16px', flex: 1, marginLeft: '8px', backgroundColor: T.accent, borderRadius: '12px', color: T.bgMain, fontWeight: 'bold', border: 'none' }}
                         onClick={() => { if (!validateStep(step)) return; setStep(step + 1); scrollTop(); }}>
                         Continuar
                     </button>
