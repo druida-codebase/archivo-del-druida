@@ -173,7 +173,7 @@ export default function Form({ draft, setDraft }: FormProps) {
     return (
         <div
             ref={scrollRef}
-            style={{ flex: 1, backgroundColor: T.bgMain, color: T.primaryText, overflowY: 'auto', paddingBottom: '40px' }}
+            style={{ marginTop: '10dvh', flex: 1, backgroundColor: T.bgMain, color: T.primaryText, overflowY: 'auto', paddingBottom: '40px' }}
         >
             {/* STEP 0 - INTRO */}
             {step === 0 && (
