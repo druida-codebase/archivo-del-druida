@@ -63,7 +63,7 @@ export function Navbar({ variant = "solid", blogPosts: initialPosts }: NavbarPro
   { title: "Sobre esto", href: "/sobre-esto" }, 
   { title: "Creación", href: "/creaciones" },
   { title: "Archivo", href: "/archivo" },
-  { title: "Equipo", href: "/equipo" },
+ // { title: "Equipo", href: "/equipo" },
 ];
 
   const filteredBlogs = useMemo(() => {

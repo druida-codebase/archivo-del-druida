@@ -145,11 +145,11 @@ export function Loader({ onComplete }: LoaderProps) {
   if (animationComplete) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex h-full w-full items-center justify-center bg-black overflow-hidden">
-      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full z-[101]" />
-      <canvas ref={canvas2Ref} className="absolute inset-0 w-full h-full z-[103]" />
+    <div className="fixed inset-0 z-100 flex h-full w-full items-center justify-center bg-black overflow-hidden">
+      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full z-101" />
+      <canvas ref={canvas2Ref} className="absolute inset-0 w-full h-full z-103" />
       <div
-        className={`fixed z-[102] transition-all duration-1000 ease-in-out flex flex-col items-center justify-center ${
+        className={`fixed z-102 transition-all duration-1000 ease-in-out flex flex-col items-center justify-center ${
           logoAnimating 
             ? 'top-12 left-6 w-26 md:w-34 translate-x-0 translate-y-0' 
             : 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 md:w-96 h-full'
