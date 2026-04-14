@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Navbar } from "@/components/Navbar";
 import { FadeIn } from "@/components/FadeIn";
-
+//Forcing ruild
 export default function NotFound() {
   return (
     <section className="flex flex-col items-center bg-[#f1f1f1] min-h-[60dvh] pb-20 px-4">
@@ -31,9 +31,7 @@ export default function NotFound() {
             </Link>
           </div>
         </FadeIn>       
-      </div>
-
-     
+      </div>     
     </section>
   );
 }
